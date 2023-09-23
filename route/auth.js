@@ -1,10 +1,10 @@
 import express from "express"
-import {login,register,logout,googleLogin,googleSuccess,googleFailed,googleCallback} from "../controller/auth.js"
+import {login,register,logout,googleLogin,googleSuccess,googleFailed,googleCallback, verifyEmail} from "../controller/auth.js"
 import { checkAuth } from "../middleware/auth.js"
 
 const router = express.Router()
 router.post("/login",login)
-router.post("/register",register)
+router.post("/register",register,verifyEmail)
 router.get("/check-auth",checkAuth)
 router.get("/logout",logout)
 router.get("/google",googleLogin)
