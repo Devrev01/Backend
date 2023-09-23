@@ -28,11 +28,11 @@ mongoose.connection.on("connected", () => {
         resave: false,
         saveUninitialized: false,
         cookie: {
-            sameSite: "none",
+            sameSite: "lax",
             secure: false,
-            maxAge: 24 * 60 * 60 * 1000
+            maxAge:24*60*60*1000
         },
-        store: MongoStore.create({ client: mongoose.connection.getClient(), ttl: 24 * 60 * 60 * 1000,autoRemove:"native" })
+        store: MongoStore.create({ client: mongoose.connection.getClient(), ttl: 24*60*60*1000, autoRemove: 'native'})
     }))
     app.use(passport.initialize());
     app.use(passport.session());

@@ -21,6 +21,7 @@ export const register = async (req, res) => {
         await newUser.save()
         req.session.user = newUser
         req.session.isAuthenicated = true
+        await req.session.save() 
         return res.status(201).json({ status: "success", newUser })
     } catch (err) {
         res.status(500).json({ status: "failed", err })
@@ -36,6 +37,7 @@ export const login = async (req, res) => {
         if (!isCorrectPassword) return res.status(400).json({ status: "failed", msg: "Invalid credentials" })
         req.session.user = user
         req.session.isAuthenicated = true
+        await req.session.save()
         return res.status(200).json({ status: "success", user })
     } catch (err) {
         return res.json(500).json({ status: "failed", err })
@@ -76,6 +78,7 @@ export const verifyEmail = async (req, res, next) => {
     const otp = otpGenerator.generate(4, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false })
     req.session.otp = otp
     req.session.otpExpireAt = Date.now() + 600000
+    await req.session.save()
     try {
         await emailjs.send("service_oi7m1hm", "template_41rmm2f", {
             to_email: req.session.user.email,
