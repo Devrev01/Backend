@@ -21,19 +21,19 @@ export const register = async (req, res) => {
         await newUser.save()
         req.session.user = newUser
         req.session.isAuthenicated = true
-        await req.session.save() 
+        await req.session.save()
         return res.status(201).json({ status: "success", newUser })
     } catch (err) {
         res.status(500).json({ status: "failed", err })
     }
 }
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
     const { email, password } = req.body
     try {
-        const isCorrectPassword = await bcrypt.compare(password, req.user.password)
         const user = await User.findOne({ email })
         if (!user) return res.status(400).json({ status: "failed", msg: "User not found" })
+        const isCorrectPassword = await bcrypt.compare(password, user.password)
         if (!isCorrectPassword) return res.status(400).json({ status: "failed", msg: "Invalid credentials" })
         req.session.user = user
         req.session.isAuthenicated = true
@@ -87,22 +87,22 @@ export const verifyEmail = async (req, res, next) => {
         }, { publicKey: process.env.PUBLIC_KEY, privateKey: process.env.PRIVATE_KEY });
         return res.status(200).json({ status: "success", msg: "OTP sent" })
     }
-    catch (err) {   
+    catch (err) {
         return res.status(200).json(err)
-    }   
+    }
 }
 
 export const verifyOtp = async (req, res, next) => {
     const { otp } = req.body
-    if (Date.now() > req.session.otpExpireAt){
+    if (Date.now() > req.session.otpExpireAt) {
         req.session.otp = null
-        return res.status(419).json({status:"failed",msg:"Timeout"})
+        return res.status(419).json({ status: "failed", msg: "Timeout" })
     }
-    if (otp === req.session.otp){
-        const user = await User.findOne({email:req.session.user.email})
+    if (otp === req.session.otp) {
+        const user = await User.findOne({ email: req.session.user.email })
         user.isVerified = true
         await user.save()
-        return res.status(200).json({status:"success",msg:"Email verified"})
+        return res.status(200).json({ status: "success", msg: "Email verified" })
     }
-    else return res.status(400).json({status:"failed",msg:"Invalid OTP"})
+    else return res.status(400).json({ status: "failed", msg: "Invalid OTP" })
 }
