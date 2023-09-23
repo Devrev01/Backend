@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs"
 import otpGenerator from "otp-generator"
 import emailjs from "@emailjs/nodejs"
 import dotenv from "dotenv"
+import '../passport.js'
 dotenv.config()
 
 export const register = async (req, res) => {
@@ -54,7 +55,8 @@ export const logout = async (req, res) => {
 }
 
 export const googleLogin = async (req, res, next) => {
-    passport.authenticate("google", { scope: ["profile", "email"] })
+    console.log("googlelogin")
+    passport.authenticate("google", { scope: ["profile", "email"] })(req,res,next)
 }
 
 export const googleSuccess = async (req, res) => {
@@ -69,7 +71,8 @@ export const googleFailed = async (req, res, next) => {
 }
 
 export const googleCallback = async (req, res, next) => {
-    passport.authenticate("google", { failureRedirect: "/google/failed", successRedirect: "/google/success" })
+    console.log("google callback")
+    passport.authenticate("google", { failureRedirect: "http://localhost:3000/signin?error=emailNotFound", successRedirect: "http://localhost:3000/home" })(req,res,next)
 }
 
 export const verifyEmail = async (req, res, next) => {
