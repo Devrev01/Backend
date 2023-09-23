@@ -21,8 +21,7 @@ export const register = async (req, res) => {
         await newUser.save()
         req.session.user = newUser
         req.session.isAuthenicated = true
-        res.status(201).json({ status: "success", newUser })
-        next()
+        return res.status(201).json({ status: "success", newUser })
     } catch (err) {
         res.status(500).json({ status: "failed", err })
     }

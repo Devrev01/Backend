@@ -4,9 +4,10 @@ import { checkAuth } from "../middleware/auth.js"
 
 const router = express.Router()
 router.post("/login",login)
-router.post("/register",register,verifyEmail)
+router.post("/register",register)
 router.post("/verifyOtp",verifyOtp)
 router.get("/check-auth",checkAuth)
+router.get("/verifyEmail",verifyEmail)
 router.get("/logout",logout)
 router.get("/google",googleLogin)
 router.get("/google/success",googleSuccess)
