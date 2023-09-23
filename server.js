@@ -5,6 +5,7 @@ import { connect } from "./config/database.js"
 import mongoose from "mongoose"
 import passport from "passport"
 import authRoute from "./route/auth.js"
+import cors from "cors"
 
 const app = express()
 
@@ -15,6 +16,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({mongoUrl: process.env.MONGO_URI})
+}))
+app.use(cors({
+    origin:"https://localhost:3000",
+    methods:["GET","POST","PUT","DELETE"],
+    credentials:true,
 }))
 
 app.use(passport.initialize());
