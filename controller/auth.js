@@ -96,7 +96,7 @@ export const verifyOtp = async (req, res, next) => {
         return res.status(419).json({status:"failed",msg:"Timeout"})
     }
     if (otp === req.session.otp){
-        const user = new User({email:req.session.user.email})
+        const user = await User.findOne({email:req.session.user.email})
         user.isVerified = true
         await user.save()
         return res.status(200).json({status:"success",msg:"Email verified"})
