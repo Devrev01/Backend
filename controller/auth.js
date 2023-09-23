@@ -82,7 +82,7 @@ export const verifyEmail = async (req, res, next) => {
             to_name: req.session.user.fullName,
             OTP: req.session.otp,
         }, { publicKey: process.env.PUBLIC_KEY, privateKey: process.env.PRIVATE_KEY });
-        return res.status(200).json({ message: 'Email sent successfully', otpId: userotp._id })
+        return res.status(200).json({ status: "success", msg: "OTP sent" })
     }
     catch (err) {   
         return res.status(200).json(err)
