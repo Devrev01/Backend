@@ -3,6 +3,8 @@ import session from "express-session"
 import MongoStore from "connect-mongo"
 import { connect } from "./config/database.js"
 import mongoose from "mongoose"
+import passport from "passport"
+import authRoute from "./route/auth.js"
 
 const app = express()
 
@@ -26,6 +28,8 @@ mongoose.connection.on("disconnected",()=>{
 mongoose.connection.on("connected",()=>{
     console.log("MongoDB connected")
 })
+
+app.use('/api/auth',authRoute)
 
 app.listen(process.env.PORT,()=>{
     console.log(`Server is running on port ${process.env.PORT}`)

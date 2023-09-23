@@ -1,4 +1,5 @@
 import express from "express"
+import {login,register,logout,googleLogin,googleSuccess,googleFailed,googleCallback} from "../controller/auth.js"
 
 const router = express.Router()
 router.post("/login",login)
