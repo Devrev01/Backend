@@ -39,7 +39,7 @@ export const login = async (req, res) => {
 export const logout = async(req,res)=>{
     try{
         req.session.destroy()
-        return res.status(200).json({msg:"Logout success"})
+        return res.status(200).json({status:"success",msg:"Logout successfully"})
     }catch(err){
         return res.status(500).json(err)
     }
