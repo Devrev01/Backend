@@ -6,6 +6,8 @@ export const register = async (req, res) => {
     try {
         const salt = bcrypt.genSaltSync(10)
         const hashedPassword = bcrypt.hashSync(password, salt)
+        const user = await User.findOne({ email })
+        if(user) return res.status(400).json({status:"failed",msg:"User already exists"})
         const newUser = new User({
             fullName,
             email,
@@ -23,8 +25,8 @@ export const login = async (req, res) => {
     try{
         const isCorrectPassword = await bcrypt.compare(password,req.user.password)
         const user = await User.findOne({email})
-        if(!user) return res.status(400).json({msg:"User not found"})
-        if(!isCorrectPassword) return res.status(400).json({msg:"Invalid credentials"})
+        if(!user) return res.status(400).json({status:"failed",msg:"User not found"})
+        if(!isCorrectPassword) return res.status(400).json({status:"failed",msg:"Invalid credentials"})
         req.session.user = user
         req.session.isAuthenicated = true
         return res.status(200).json({status:"success",user})
