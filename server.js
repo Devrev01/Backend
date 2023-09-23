@@ -3,6 +3,7 @@ import session from "express-session"
 import MongoStore from "connect-mongo"
 import { connect } from "./config/database.js"
 import mongoose from "mongoose"
+import passport from "passport"
 
 const app = express()
 
