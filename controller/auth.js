@@ -65,7 +65,7 @@ export const googleLogin = async (req, res, next) => {
 
 
 export const googleCallback = async (req, res, next) => {
-    passport.authenticate("google", { failureRedirect: "https://bookmanager2023.onrender.com/signin?error=emailNotFound"}),async(req,res,next)=>{
+    passport.authenticate("google", { failureRedirect: "https://bookmanager2023.onrender.com/signin?error=emailNotFound"})(req,res,next),async(req,res,next)=>{
         req.session.user = req.user
         req.session.isAuthenicated = true
         await req.session.save()
