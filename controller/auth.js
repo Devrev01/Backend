@@ -66,7 +66,7 @@ export const setSession = async (req, res, next) => {
         req.session.user = dbUser;
         req.session.isAuthenticated = true;
         await req.session.save();
-
+        console.log(req.session.user)
         res.redirect("https://bookmanager2023.onrender.com/home");
     } catch (error) {
         res.status(500).json({ error: error.message });
