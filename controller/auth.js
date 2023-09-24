@@ -61,13 +61,13 @@ export const logout = async (req, res) => {
 export const setSession = async (req, res, next) => {
     try {
         const dbUser = await User.findOne({ email: req.params.email });
-        if (!dbUser) throw new Error('User not found in database');
+        if (!dbUser) return res.status(400).json({ status: "failed", msg: "User not found" });
 
         req.session.user = dbUser;
         req.session.isAuthenticated = true;
         await req.session.save();
         console.log(req.session.user)
-        res.redirect("https://bookmanager2023.onrender.com/home");
+        return res.status(200).json({ status: "success", msg: "Session set successfully" })
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
