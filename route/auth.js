@@ -1,5 +1,5 @@
 import express from "express"
-import { login, register, logout, googleLogin, googleCallback, verifyEmail, verifyOtp } from "../controller/auth.js"
+import { login, register, logout, googleLogin, verifyEmail, verifyOtp } from "../controller/auth.js"
 import { checkAuth } from "../middleware/auth.js"
 import passport from "passport"
 import "../passport.js"
@@ -22,6 +22,5 @@ router.get('/google/callback',
         res.redirect("https://bookmanager2023.onrender.com/signin?success=loginSuccess")
     }
 )
-router.get("/google/callback", googleCallback);
 
 export default router

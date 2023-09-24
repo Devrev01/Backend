@@ -63,11 +63,6 @@ export const googleLogin = async (req, res, next) => {
     passport.authenticate("google", { scope: ["profile", "email"] })(req,res,next)
 }
 
-
-export const googleCallback = async (req, res, next) => {
-    
-}
-
 export const verifyEmail = async (req, res, next) => {
     const user = await User.findOne({ email: req.session.user.email })
     if (!user) return res.status(400).json({ status: "failed", msg: "User not found" })
