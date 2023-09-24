@@ -47,7 +47,11 @@ export const login = async (req, res, next) => {
 
 export const logout = async (req, res) => {
     try {  
-        await req.session.destroy();
+        req.session.isAuthenicated = false
+        req.session.destroy((err)=>{
+            if(err) return res.status(500).json(err)
+            console.log("session has been destroyed")
+        })
         return res.status(200).json({ status: "success", msg: "Logout successfully" })
     } catch (err) {
         return res.status(500).json(err)

@@ -4,6 +4,6 @@ const router = express.Router()
 
 router.get('/',getCart)
 router.post('/', addToCart)
-router.delete('/:bookId', removeFromCart)
+router.delete('/:bookId/:book_id', removeFromCart)
 
 export default router;
