@@ -50,6 +50,7 @@ export const logout = async (req, res) => {
         req.session.isAuthenicated = false
         req.session.destroy((err)=>{
             if(err) return res.status(500).json(err)
+            console.log("session destroyed")
         })
         return res.status(200).json({ status: "success", msg: "Logout successfully" })
     } catch (err) {

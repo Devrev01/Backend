@@ -12,7 +12,6 @@ export const getCart = async (req, res) => {
 }
 export const addToCart = async (req, res) => {
     try {
-        console.log(req.session)
         const userId = req.session.user._id;
         const user = await User.findById(userId);
         const { title, author, price, cover, category,book_id } = req.body;
