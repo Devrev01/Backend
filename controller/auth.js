@@ -46,10 +46,10 @@ export const login = async (req, res, next) => {
 }
 
 export const logout = async (req, res) => {
-    try {  
+    try {
         req.session.isAuthenicated = false
-        req.session.destroy((err)=>{
-            if(err) return res.status(500).json(err)
+        req.session.destroy((err) => {
+            if (err) return res.status(500).json(err)
             console.log("session destroyed")
         })
         return res.status(200).json({ status: "success", msg: "Logout successfully" })
@@ -60,8 +60,26 @@ export const logout = async (req, res) => {
 
 export const googleLogin = async (req, res, next) => {
     console.log("googlelogin")
-    passport.authenticate("google", { scope: ["profile", "email"] })(req,res,next)
+    passport.authenticate("google", { scope: ["profile", "email"] })(req, res, next)
 }
+
+
+export const googleCallback = async (req, res, next) => {
+    console.log("google callback");
+    passport.authenticate("google", (err, user, info) => {
+        if (err) return next(err);
+        if (!user) return res.redirect("https://bookmanager2023.onrender.com/signin?error=emailNotFound");
+
+        req.login(user, (loginErr) => {
+            if (loginErr) return next(loginErr);
+            req.session.isAuthenicated = true
+            console.log(user)
+            req.session.user = user
+            res.redirect("https://bookmanager2023.onrender.com/signin?success=loginSuccess");
+        });
+    })(req, res, next);
+}
+
 
 export const verifyEmail = async (req, res, next) => {
     const user = await User.findOne({ email: req.session.user.email })
