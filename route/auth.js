@@ -15,6 +15,7 @@ router.get('/google', googleLogin)
 router.get('/google/callback',
     passport.authenticate("google", { failureRedirect: "https://bookmanager2023.onrender.com/signin?error=emailNotFound", session:true }),
     async(req, res) => {
+        console.log(req.user)
         req.session.user = req.user
         req.session.isAuthenicated = true
         req.session.save((err)=>{
