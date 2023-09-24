@@ -13,8 +13,8 @@ router.get("/verifyEmail", verifyEmail)
 router.get("/logout", logout)
 router.get('/google', googleLogin)
 router.get('/google/callback',
-    passport.authenticate("google", { failureRedirect: "https://bookmanager2023.onrender.com/signin?error=emailNotFound" }),
-    async(req, res, next) => {
+    passport.authenticate("google", { failureRedirect: "https://bookmanager2023.onrender.com/signin?error=emailNotFound", session:true }),
+    async(req, res) => {
         req.session.user = req.user
         req.session.isAuthenicated = true
         req.session.save((err)=>{
