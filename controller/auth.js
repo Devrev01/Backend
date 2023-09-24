@@ -66,17 +66,20 @@ export const googleLogin = async (req, res, next) => {
 
 export const googleCallback = async (req, res, next) => {
     console.log("google callback");
-    passport.authenticate("google", (err, user, info) => {
+    passport.authenticate("google", async(err, user, info) => {
         if (err) return next(err);
-        if (!user) return res.redirect("https://bookmanager2023.onrender.com/signin?error=emailNotFound");
+        const dbUser = await User.findOne({ email: info.emails[0].value });
+        
+        if (!dbUser) return res.redirect("https://bookmanager2023.onrender.com/signin?error=emailNotFound");
 
-        req.login(user, (loginErr) => {
+        req.login(user, async(loginErr) => {
             if (loginErr) return next(loginErr);
-            req.session.isAuthenicated = true
-            console.log(user.email,"email")
-            console.log(info,"info")
-            req.session.user = user
-            res.redirect("https://bookmanager2023.onrender.com/signin?success=loginSuccess");
+            if (dbUser) {
+                req.session.user = dbUser
+                req.session.isAuthenicated = true
+                await req.session.save()
+                return res.redirect("https://bookmanager2023.onrender.com/signin?success=loginSuccess");
+            }
         });
     })(req, res, next);
 }
