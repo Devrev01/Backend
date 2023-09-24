@@ -1,6 +1,6 @@
 export const checkAuth = async(req,res,next) =>{
-    if(req.session.isAuthenicated && req.session.user){
-        return res.status(200).json({isAuthenicated:true,user:req.session.user})
+    if(req.session.isAuthenticated && req.session.user){
+        return res.status(200).json({isAuthenticated:true,user:req.session.user})
     }
-    return res.status(401).json({isAuthenicated:false,user:null})
+    return res.status(401).json({isAuthenticated:false,user:null})
 }

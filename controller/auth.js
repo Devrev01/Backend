@@ -21,7 +21,7 @@ export const register = async (req, res) => {
         })
         await newUser.save()
         req.session.user = newUser
-        req.session.isAuthenicated = true
+        req.session.isAuthenticated = true
         await req.session.save()
         return res.status(201).json({ status: "success", newUser })
     } catch (err) {
@@ -37,7 +37,7 @@ export const login = async (req, res, next) => {
         const isCorrectPassword = await bcrypt.compare(password, user.password)
         if (!isCorrectPassword) return res.status(400).json({ status: "failed", msg: "Invalid credentials" })
         req.session.user = user
-        req.session.isAuthenicated = true
+        req.session.isAuthenticated = true
         await req.session.save()
         return res.status(200).json({ status: "success", user })
     } catch (err) {
@@ -47,7 +47,7 @@ export const login = async (req, res, next) => {
 
 export const logout = async (req, res) => {
     try {
-        req.session.isAuthenicated = false
+        req.session.isAuthenticated = false
         req.session.destroy((err) => {
             if (err) return res.status(500).json(err)
             console.log("session destroyed")
@@ -80,7 +80,7 @@ export const googleCallback = async (req, res, next) => {
             req.session.user = dbUser;
             req.session.isAuthenticated = true;
 
-            await req.session.save().catch(next);
+            await req.session.save();
 
             return res.redirect("https://bookmanager2023.onrender.com/signin?success=loginSuccess");
         });
