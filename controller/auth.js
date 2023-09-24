@@ -47,6 +47,7 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
     try {
+        req.logout()
         req.session.destroy()
         return res.status(200).json({ status: "success", msg: "Logout successfully" })
     } catch (err) {
@@ -59,16 +60,6 @@ export const googleLogin = async (req, res, next) => {
     passport.authenticate("google", { scope: ["profile", "email"] })(req,res,next)
 }
 
-export const googleSuccess = async (req, res) => {
-    const { email } = req.user
-    const user = new User({ email })
-    if (!user) return res.status(400).json({ status: "failed", msg: "User not found" })
-    return res.status(200).json({ status: "success", user: req.user })
-}
-
-export const googleFailed = async (req, res, next) => {
-    return res.status(401).json({ status: "failed", user: null })
-}
 
 export const googleCallback = async (req, res, next) => {
     console.log("google callback")

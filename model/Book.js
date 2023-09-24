@@ -9,10 +9,6 @@ const bookSchema = new Schema({
         type:String,
         required:true,
     },
-    description:{
-        type:String,
-        required:true
-    },
     price:{
         type:Number,
         required:true
@@ -23,8 +19,14 @@ const bookSchema = new Schema({
     },
     category:{
         type:String,
-        required:true
-    }
+        required:true,
+        default:"Knowledge"
+    },
+    quantity:{
+        type:Number,
+        required:true,
+        default:1
+    },
 },{timestamps:true})
 
 export default mongoose.model("Book",bookSchema)

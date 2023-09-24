@@ -17,7 +17,8 @@ const userSchema = new Schema({
     isVerified:{
         type:Boolean,
         default:false
-    }
+    },
+    cart:[{type:Schema.Types.ObjectId,ref:"Book"}],
 },{timestamps:true})
 
 export default mongoose.model("User",userSchema)
