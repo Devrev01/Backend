@@ -17,7 +17,13 @@ passport.use(new GoogleStrategy({
     passReqToCallback: true,
 },async(request, accessToken, refreshToken, profile, email, done)=>{
         const user = await User.findOne({ email:email.emails[0].value });
-        if(!user) return done(null, false);
+        if(!user) {
+            request.session.isAuthenicated = false;
+            request.session.user = null;
+            return done(null, false)
+        }
+        request.session.isAuthenicated = true;
+        request.session.user = user;
         return done(null, profile, email);
     }
 ));
