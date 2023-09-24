@@ -18,6 +18,9 @@ const userSchema = new Schema({
         type:Boolean,
         default:false
     },
+    booksId:[{
+        type:String
+    }],
     cart:[{type:Schema.Types.ObjectId,ref:"Book"}],
 },{timestamps:true})
 

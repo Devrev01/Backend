@@ -1,5 +1,5 @@
-import Book from "../model/Book";
-import User from "../model/User";
+import Book from "../model/Book.js";
+import User from "../model/User.js";
 
 export const getCart = async (req, res) => {
     try{
@@ -12,12 +12,14 @@ export const getCart = async (req, res) => {
 }
 export const addToCart = async (req, res) => {
     try {
+        console.log(req.session)
         const userId = req.session.user._id;
         const user = await User.findById(userId);
-        const { title, author, price, cover, category } = req.body;
+        const { title, author, price, cover, category,book_id } = req.body;
         const newBook = new Book({ title, author, price, cover, category });
         await newBook.save();
         user.cart.push(newBook._id);
+        user.booksId.push(book_id);
         await user.save();
         req.session.user = user;
         await req.session.save();
