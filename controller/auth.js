@@ -58,6 +58,21 @@ export const logout = async (req, res) => {
     }
 }
 
+export const setSession = async (req, res, next) => {
+    try {
+        const dbUser = await User.findOne({ email: req.params.email });
+        if (!dbUser) throw new Error('User not found in database');
+
+        req.session.user = dbUser;
+        req.session.isAuthenticated = true;
+        await req.session.save();
+
+        res.redirect("https://bookmanager2023.onrender.com/home");
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 export const googleLogin = async (req, res, next) => {
     console.log("googlelogin")
     passport.authenticate("google", { scope: ["profile", "email"] })(req, res, next)
@@ -68,20 +83,8 @@ export const googleCallback = async (req, res, next) => {
     console.log("google callback");
     
     passport.authenticate("google", async (err, user, info) => {
-        if (err) return next(err);
-        
-        const dbUser = await User.findOne({ email: info.emails[0].value }).catch(next);
-
-        if (!dbUser) return res.redirect("https://bookmanager2023.onrender.com/signin?error=emailNotFound");
-
-        req.login(user, async (loginErr) => {
-            if (loginErr) return next(loginErr);
-            req.session.user = dbUser;
-            req.session.isAuthenticated = true;
-            await req.session.save();
-            console.log(req.session, "session")
-            return res.redirect("https://bookmanager2023.onrender.com/signin?success=loginSuccess");
-        });
+        if (err) return res.redirect("https://bookmanager2023.onrender.com/signin?error=emailNotFound")
+        return res.redirect("https://bookmanager2023.onrender.com/signin?email="+info.emails[0].value)
     })(req, res, next);
 };
 
