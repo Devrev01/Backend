@@ -76,12 +76,11 @@ export const googleCallback = async (req, res, next) => {
 
         req.login(user, async (loginErr) => {
             if (loginErr) return next(loginErr);
-            console.log(dbUser)
             req.session.user = dbUser;
             req.session.isAuthenticated = true;
 
             await req.session.save();
-
+            console.log(req.session, "session")
             return res.redirect("https://bookmanager2023.onrender.com/signin?success=loginSuccess");
         });
     })(req, res, next);
