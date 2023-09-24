@@ -66,7 +66,7 @@ export const googleLogin = async (req, res, next) => {
 
 export const googleCallback = async (req, res, next) => {
     console.log("google callback")
-    passport.authenticate("google", { failureRedirect: "http://localhost:3000/signin?error=emailNotFound", successRedirect: "http://localhost:3000/home" })(req,res,next)
+    passport.authenticate("google", { failureRedirect: "http://localhost:3000/signin?error=emailNotFound", successRedirect: "http://localhost:3000/signin?success=loginSuccess" })(req,res,next)
 }
 
 export const verifyEmail = async (req, res, next) => {
