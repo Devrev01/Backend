@@ -31,7 +31,7 @@ mongoose.connection.on("connected", () => {
         cookie: {
             sameSite: "none",
             secure: true,
-            httpOnly:true,
+            httpOnly:false,
             maxAge:24*60*60*1000
         },
         store: MongoStore.create({ client: mongoose.connection.getClient(), ttl: 24*60*60*1000, autoRemove: 'native'})
