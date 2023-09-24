@@ -5,3 +5,5 @@ const router = express.Router()
 router.get('/',getCart)
 router.post('/', addToCart)
 router.delete('/:bookId', removeFromCart)
+
+export default router;

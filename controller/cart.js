@@ -2,9 +2,13 @@ import Book from "../model/Book";
 import User from "../model/User";
 
 export const getCart = async (req, res) => {
-    const userId = req.session.user._id;
-    const user = await User.findById(userId).populate('cart');
-    res.status(200).json({status:"success",cart:user.cart,message:"Cart fetched successfully"});
+    try{
+        const userId = req.session.user._id;
+        const user = await User.findById(userId).populate('cart');
+        res.status(200).json({status:"success",cart:user.cart,message:"Cart fetched successfully"});
+    }catch(err){
+        res.status(500).json({ status: "failure", message: err.message });
+    }
 }
 export const addToCart = async (req, res) => {
     try {

@@ -5,6 +5,7 @@ import { connect } from "./config/database.js"
 import mongoose from "mongoose"
 import passport from "passport"
 import authRoute from "./route/auth.js"
+import cartRoute from "./route/cart.js"
 import cors from "cors"
 
 const app = express()
@@ -37,6 +38,7 @@ mongoose.connection.on("connected", () => {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use('/api/auth', authRoute)
+    app.use('/api/cart', cartRoute)
 })
 
 
