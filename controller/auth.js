@@ -65,8 +65,13 @@ export const googleLogin = async (req, res, next) => {
 
 
 export const googleCallback = async (req, res, next) => {
-    console.log("google callback")
-    passport.authenticate("google", { failureRedirect: "https://bookmanager2023.onrender.com/signin?error=emailNotFound", successRedirect: "https://bookmanager2023.onrender.com/signin?success=loginSuccess" })(req,res,next)
+    passport.authenticate("google", { failureRedirect: "https://bookmanager2023.onrender.com/signin?error=emailNotFound"}),async(req,res,next)=>{
+        req.session.user = req.user
+        req.session.isAuthenicated = true
+        await req.session.save()
+        console.log("google callback")
+        res.redirect("https://bookmanager2023.onrender.com/signin?success=loginSuccess")
+    }
 }
 
 export const verifyEmail = async (req, res, next) => {

@@ -18,14 +18,8 @@ passport.use(new GoogleStrategy({
 },async(request, accessToken, refreshToken, profile, email, done)=>{
         const user = await User.findOne({ email:email.emails[0].value });
         if(!user) {
-            request.session.isAuthenicated = false;
-            request.session.user = null;
-            await request.session.save();
             return done(null, false)
         }
-        request.session.isAuthenicated = true;
-        request.session.user = user;
-        await request.session.save();
         return done(null, profile, email);
     }
 ));
