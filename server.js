@@ -29,7 +29,7 @@ mongoose.connection.on("connected", () => {
         resave: false,
         saveUninitialized: false,
         cookie: {
-            sameSite: "lax",
+            sameSite: "none",
             secure: true,
             httpOnly:true,
             maxAge:24*60*60*1000
