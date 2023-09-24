@@ -27,6 +27,10 @@ const bookSchema = new Schema({
         required:true,
         default:1
     },
+    bookId:{
+        type:String,
+        required:true
+    }
 },{timestamps:true})
 
 export default mongoose.model("Book",bookSchema)
