@@ -73,7 +73,8 @@ export const googleCallback = async (req, res, next) => {
         req.login(user, (loginErr) => {
             if (loginErr) return next(loginErr);
             req.session.isAuthenicated = true
-            console.log(user)
+            console.log(user.email,"email")
+            console.log(info,"info")
             req.session.user = user
             res.redirect("https://bookmanager2023.onrender.com/signin?success=loginSuccess");
         });
