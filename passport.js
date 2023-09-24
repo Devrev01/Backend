@@ -20,10 +20,12 @@ passport.use(new GoogleStrategy({
         if(!user) {
             request.session.isAuthenicated = false;
             request.session.user = null;
+            await request.session.save();
             return done(null, false)
         }
         request.session.isAuthenicated = true;
         request.session.user = user;
+        await request.session.save();
         return done(null, profile, email);
     }
 ));
